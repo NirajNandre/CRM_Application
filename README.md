@@ -2,7 +2,8 @@
 
 ## Overview
 
-This CRM (Customer Relationship Management) application is a robust solution developed using ASP.NET, HTML, CSS, and JavaScript. It is designed to enhance organizational efficiency through streamlined processes for employee management, asset allocation, leave tracking, and salary generation.
+This CRM (Customer Relationship Management) application is a robust solution developed using ASP.NET, HTML, CSS, and JavaScript.
+It is designed to enhance organizational efficiency through streamlined processes for employee management, asset allocation, leave tracking, and salary generation.
 
 ## Features
 
