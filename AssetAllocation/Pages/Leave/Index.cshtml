@@ -1,0 +1,64 @@
+﻿@page
+@model CRM.Pages.Leaves.IndexModel
+@using Leave;
+@{
+    Layout = "_Layout";
+}
+<style>
+     
+    /* Custom CSS for padding on buttons */
+    .custom-btn-padding {
+      padding: 10px 20px; 
+      margin:10px 10px 10px 10px;
+    }
+  
+</style>
+
+
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Leave Summary</h3>
+    <div class="card-body">
+        <div class="table-editable">
+            <span class="table-add float-right">
+                <a href="/Leave/Add" class="text-success" title="Add Employee">
+                    <i class="fas fa-plus fa-3x" aria-hidden="true">
+                    </i>
+                </a>
+            </span>
+            <form method="post">
+
+                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Year</th>
+                            <th>Total Leaves</th>
+                            <th>Leaves taken</th>
+                            <th>Remaining leaves</th>
+                            <th>Additional leaves</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var Leave in Model.Leave)
+                        {
+                            
+                            <tr>
+                                <td>@Html.DisplayFor(m => Leave.EmployeeMaster.EmployeeName)</td>
+                                <td>@Html.DisplayFor(m =>Leave.Year)</td>
+                                <td>@Html.DisplayFor(m => Leave.TotalLeaves)</td>
+                                <td>@Html.DisplayFor(m => Leave.LeavesTaken)</td>
+                                <td>@Html.DisplayFor(m => Leave.RemainingLeaves)</td>
+                                <td>@Html.DisplayFor(m => Leave.AdditionalLeaves)</td>
+                                <td>
+                                    <a href="/LeaveRecord/Create?employeeId=@Leave.EmpId"  class="btn btn-primary custom-btn-padding">Add Leave</a>
+                                    <a href="/Leave/Add?Id=@Leave.LeaveId" class="btn btn-info custom-btn-padding"><i class="fas fa-edit"></i></a>
+                                    <a href="/LeaveRecord/Detail?employeeId=@Leave.EmpId&year=@Leave.Year" class="btn btn-secondary custom-btn-padding">View Details</a>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>

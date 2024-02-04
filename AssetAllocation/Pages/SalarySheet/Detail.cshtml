@@ -1,0 +1,75 @@
+﻿@page
+@model CRM.Pages.SalarySheet.DetailModel
+@{
+    Layout = "_Layout";
+}
+
+
+
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Salary Sheet</h3>
+    <div class="card-body">
+        <div class="table-editable">
+            <p class="fw-bold">Employee : <strong>@Model.EmployeeName</strong</p>
+             <form method="post">
+
+                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Salary Month</th>
+                            <th>Working Days</th>
+                            <th>LOP</th>
+                            <th>Base Salary</th>
+                            <th>HRA</th>
+                            <th>Special Allow.</th>
+                            <th>Gross Salary</th>
+                            <th>EPF</th>
+                            <th>Professional Tax</th>
+                            <th>Total Deduction</th>
+                            <th>Net Salary</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sheet in Model.SalarySheet.OrderBy(s => s.SalMonth))
+                        {
+                            <tr>
+                                <td>@sheet.SalMonth</td>
+                                <td>@sheet.workingDays</td>
+                                <td>@sheet.LOPDays</td>
+                                <td>@sheet.BaseSalary_M</td>
+                                <td>@sheet.HRA_M</td>
+                                <td>@sheet.SpecialAllowances_M</td>
+                                <td>@sheet.GrossSalary_M</td>
+                                <td>@sheet.EPF_M</td>
+                                <td>@sheet.Part_B_ProfessionalTax_M</td>
+                                <td>@sheet.TotalDeduction_M</td>
+                                <td>@sheet.NetSal</td>
+                                <td>
+                                    <a href="/SalarySheet/create?SID=@sheet.SID&structId=@sheet.struct_Id" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-edit">
+                                        </i>
+                                    </a>
+                                    <a onclick="openPrintPage(@sheet.SID, @sheet.struct_Id)" class="btn btn-secondary btn-sm">
+                                        <i class="fa fa-print">
+                                        </i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="col-3 ">
+                    <a href="/SalaryMaster/Index" class="btn btn-secondary ">Back To List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function openPrintPage(SID, structId) {
+        var printUrl = '/SalarySheet/print?SID=' + SID + '&structId=' + structId;
+        var printWindow = window.open(printUrl, '_blank');
+    }
+</script>

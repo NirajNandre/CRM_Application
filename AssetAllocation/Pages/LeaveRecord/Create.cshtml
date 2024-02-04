@@ -1,0 +1,98 @@
+﻿@page 
+@model CRM.Pages.LeaveRecord.CreateModel
+
+
+
+@{
+    ViewData["Title"] = "Create/Edit Leave Record";
+}
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
+@(Model.LeaveRecord.LeaveRecordId == 0 ? "Create Leave Record" : "Edit Leave Record")</h3>
+</div>
+<div class="card-body">
+    <form method="post">
+        <div class="form-group row mt-3">
+            <div class="col-2 offset-2">
+                <label>Employee Name : </label>
+            </div>
+            <div class="col-6">
+                <strong><span>@Model.LeaveRecord.EmployeeMaster?.EmployeeName</span></strong>
+            </div>
+            
+        </div>
+        <div class="form-group row mt-3">
+            <div class=" col-2 offset-2">
+            <label asp-for="LeaveRecord.FromDate">From Date:</label>
+            </div>
+            <div class="col-6">
+                @*<input asp-for="LeaveRecord.FromDate" class="form-control" onchange="calculateTotalDays()"/>*@
+                <input type="date" asp-for="LeaveRecord.FromDate" class="form-control" id="FromDate" name="LeaveRecord.FromDate" onchange="calculateTotalDays()" required>
+            <span asp-validation-for="LeaveRecord.FromDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row mt-3">
+            <div class=" col-2 offset-2">
+            <label asp-for="LeaveRecord.ToDate">To Date:</label>
+            </div>
+            <div class="col-6">
+                <input type="date" asp-for="LeaveRecord.ToDate"  class="form-control" id="ToDate" name="LeaveRecord.ToDate" onchange="calculateTotalDays()" required>
+            <span asp-validation-for="LeaveRecord.ToDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        
+        <div class="form-group row mt-3">
+            <div class=" col-2 offset-2">
+                <label for="TotalDays">Total Days:</label>
+            </div>
+            <div class="col-6">
+                <strong><span id="TotalDays">1</span></strong>
+            </div>
+        </div>
+
+        <div class="form-group row mt-3">
+                <div class="col-2 offset-2">
+                    <label asp-for="LeaveRecord.LeaveReason"></label>
+                </div>
+                <div class="col-6">
+                    <textarea asp-for="LeaveRecord.LeaveReason" class="form-control"></textarea>
+                    <span asp-validation-for="LeaveRecord.LeaveReason" class="text-danger"></span>
+                </div>
+        </div>
+
+        <div class=" form-group row mt-3">
+            <div class="col-3 offset-3">
+                @if (Model.LeaveRecord.LeaveRecordId != 0)
+                {
+                    <input type="hidden" asp-for="LeaveRecord.LeaveRecordId" />
+                }
+                <input type="hidden" asp-for="LeaveRecord.EmpId" />
+                <input type="hidden" asp-for="LeaveRecord.FromDate.Year"/>
+            <button type="submit" class="btn btn-primary form-control">@(Model.LeaveRecord.LeaveRecordId == 0 ? "Create" : "Update")</button>
+            </div>
+            <div class="col-3">
+            <a href="/Leave/Index" class="btn btn-secondary form-control">Back To List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    function calculateTotalDays() {
+        var fromDate = new Date(document.getElementById("FromDate").value);
+        var toDate = new Date(document.getElementById("ToDate").value);
+
+        if (fromDate && toDate && !isNaN(fromDate) && !isNaN(toDate)) {
+            var timeDiff = Math.abs(toDate.getTime() - fromDate.getTime());
+            var totalDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+            document.getElementById("TotalDays").textContent = totalDays + 1;
+        }
+        else {
+            document.getElementById("TotalDays").textContent = 1;
+        }
+    }
+</script>

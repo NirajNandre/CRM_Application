@@ -1,0 +1,63 @@
+﻿@page
+@model CRM.Pages.AssetAllocation.AssetHistoryModel
+@{
+    Layout = "_layout";
+}
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Asset History</h3>
+    <br />
+    <div class="card-body">
+        <form method="post">
+           @*ddl list
+            <div class="form-group row">
+                <div class="col-2 offset-2">
+                    <label asp-for="SelectedAssetId">Select Asset</label>
+                </div>
+                <div class="col-6">
+                    <select asp-for="SelectedAssetId" asp-items="Model.AssetOptions" class="form-control">
+                        <option value="">-- Select Asset --</option>
+                    </select>
+                </div>
+            </div> *@
+            <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Asset Name</th>
+                        <th>Allocated On</th>
+                        <th>Deallocated On</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var asset in Model.AssetHistory)
+                    {
+
+                        <tr>
+                            <td>@Html.DisplayFor(m => asset.EmployeeMaster.EmployeeName)</td>
+                            <td>@Html.DisplayFor(m =>asset.AssetMaster.Name)</td>
+                            <td>@Html.DisplayFor(m => asset.AllocatedOn)</td>
+                            <td>@Html.DisplayFor(m => asset.DeAllocatedOn)</td>
+                            <td>@Html.DisplayFor(m => asset.Status)</td>
+                            <td>
+                                <span title="Delete">
+                                    <button asp-page-handler="Delete" asp-route-id="@asset.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-3 ">
+                <a href="/AssetAllocation/Index" class="btn btn-secondary ">Back To List</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+

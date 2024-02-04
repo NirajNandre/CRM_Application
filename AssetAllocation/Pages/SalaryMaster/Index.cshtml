@@ -1,0 +1,67 @@
+﻿@page
+@model CRM.Pages.SalaryMaster.IndexModel
+@{
+    Layout = "_Layout";
+
+}
+<style>
+
+    /* Custom CSS for padding on buttons */
+    .custom-btn-padding {
+        padding: 10px 20px;
+        margin: 10px 10px 10px 10px;
+    }
+</style>
+
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Salary Structure</h3>
+    <div class="card-body">
+        <div class="table-editable">
+            <span class="table-add float-right">
+                <a href="/SalaryMaster/create" class="text-success" title="Add Employee">
+                    <i class="fas fa-plus fa-3x" aria-hidden="true">
+                    </i>
+                </a>
+            </span>
+             <form method="post">
+
+                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Name</th>
+                            <th>Year</th>
+                            <th>Applicable From</th>
+                            <th>Applicable To</th>
+                            <th>CTC Year</th>
+                            <th>CTC Month</th>
+                            <th>Active</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var structure in Model.SalaryMasterRecords)
+                        {
+                            <tr>
+                                <td>@structure.EmpId</td>
+                                <td>@structure.EmployeeMaster.EmployeeName</td>
+                                <td>@structure.ApplicableFrom.Year</td>
+                                <td>@structure.ApplicableFrom.ToString("dd-MM-yyyy")</td>
+                                <td>@structure.ApplicableTo.ToString("dd-MM-yyyy")</td>
+                                <td>@structure.TotalCTC_Y</td>
+                                <td>@structure.TotalCTC_M</td>
+                                <td>@(structure.IsActive ? "Yes" : "No")</td>
+                                <td>
+                                    <a href="/SalarySheet/Create?structId=@structure.Struct_ID" class="btn btn-warning custom-btn-padding">Add Payment</a>
+                                    <a href="/SalaryMaster/create?struct_Id=@structure.Struct_ID" class="btn btn-secondary custom-btn-padding"><i class="fas fa-edit"></i></a>
+                                    <a href="/SalarySheet/Detail?structId=@structure.Struct_ID" class="btn btn-primary custom-btn-padding">View Detail</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+﻿@page
+@model CRM.Pages.LeaveRecord.ApprovalModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Leave Approval";
+}
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Leave Approval</h3>
+</div>
+<div class="card-body">
+<div class="table-editable">
+        <form method="post">
+        <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Total Leaves</th>
+                <th>Leave Reason</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var leaveRecord in Model.PendingLeaveRecords)
+            {
+                <tr>
+                    <td>@leaveRecord.EmployeeMaster.EmployeeName</td>
+                    <td>@leaveRecord.FromDate.ToShortDateString()</td>
+                    <td>@leaveRecord.ToDate.ToShortDateString()</td>
+                    <td>@leaveRecord.TotalLeaves</td>
+                    <td>@leaveRecord.LeaveReason</td>
+                    <td>
+                            <input type="hidden" name="leaveRecordId" value="@leaveRecord.LeaveRecordId" />
+                            <button type="submit" name="approvalStatus" value="1" class="btn btn-success">Approve</button>
+                                <button type="submit" name="approvalStatus" value="2" class="btn btn-danger">Reject</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+</table>
+</form>
+</div>
+</div>

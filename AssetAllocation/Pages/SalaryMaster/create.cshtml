@@ -1,0 +1,568 @@
+﻿@page
+@model CRM.Pages.SalaryMaster.createModel
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .slider-nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        padding: 10px;
+    }
+
+    .slider-indicator {
+        margin: 0 15px 0 15px;
+        padding: 5px 50px;
+        font-size: 18px;
+        border: 1px solid #000;
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        .slider-indicator.active {
+            background-color: #f5b642;
+            color: #fff;
+        }
+
+    .values-section {
+        display: none;
+        margin-top: 20px;
+    }
+
+        .values-section.active {
+            display: block;
+        }
+
+    .monthly-section {
+        display: none;
+    }
+</style>
+
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
+        @(Model.SalaryMaster.Struct_ID != 0 ? "Update Salary Structure" : "Add Salary Structure")
+    </h3>
+    <br />
+    <div class="card-body">
+        <form method="post">
+
+            <div class="form-group row">
+                <div class="col-3 offset-2">
+                    <label asp-for="SalaryMaster.EmpId">Employee</label>
+                    <span asp-validation-for="SalaryMaster.EmpId" class="text-danger">*</span>
+                </div>
+                @if (Model.SalaryMaster.Struct_ID == 0)
+                {
+                    <div class="col-6">
+                        @Html.DropDownList("ddlEmployeeName", new SelectList(Model.EmployeeMaster, "Id", "EmployeeName",Model.SalaryMaster.EmpId), "Select Employee",htmlAttributes: new { @class = "form-control", required = "required",oninput = "setCustomValidity('')" })
+                        <input type="hidden" id="selectedEmpId" name="selectedEmpId" value="@Model.SalaryMaster.EmpId" />
+                    </div>
+                }
+                <div class="col-6 mt-1">
+                    <strong>@Model.EmployeeName</strong>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3 offset-2">
+                    <label>Enable Automatic Calculation</label>
+                </div>
+                <div class="col-6">
+                    <input type="checkbox" id="EnableAutoCalculation" checked>
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="SalaryMaster.TotalCTC_Y">Total CTC (Per Annum)<span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="SalaryMaster.TotalCTC_Y" class="form-control" id="TotalCTC_Y" required />
+                </div>
+            </div>
+            <div class="col-3 offset-2">
+                <label><strong>CTC Breakdown</strong></label>
+            </div>
+            <div class="slider-nav text-center">
+                <div class="slider-indicator active" id="yearIndicator">Annual</div>
+                <div class="slider-indicator" id="monthIndicator">Monthly</div>
+            </div>
+            <div class="yearly-section" id="yearlySection">
+                <div class=" form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.BaseSalary_Y">Basic Salary<span class="text-danger">*</span></label>
+                    </div>
+                    <div class=" col-6">
+                        <input asp-for="SalaryMaster.BaseSalary_Y" class="form-control" id="BaseSalary_Y" required />
+                    </div>
+                </div>
+                <div class=" form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.HRA_Y">House Rent Allowances<span class="text-danger">*</span></label>
+                    </div>
+                    <div class=" col-6">
+                        <input asp-for="SalaryMaster.HRA_Y" class="form-control" id="HRA_Y" required />
+                    </div>
+                </div>
+                <div class=" form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.SpecialAllowance_Y">Special Allowances<span class="text-danger">*</span></label>
+                    </div>
+                    <div class=" col-6">
+                        <input asp-for="SalaryMaster.SpecialAllowance_Y" class="form-control" id="SA_Y" required />
+                    </div>
+                </div>
+                <div class=" form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.AssuredPayout">Assured Payout<span class="text-danger">*</span></label>
+                    </div>
+                    <div class=" col-6">
+                        <input asp-for="SalaryMaster.AssuredPayout" class="form-control" id="AssuredPayout" required />
+                    </div>
+                </div>
+                <div class=" form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.EPF_Y">Employee's Provident Fund<span class="text-danger">*</span></label>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" id="rdbEnablePF" type="radio" asp-for="SalaryMaster.IsEnableEPF" value="true">
+                            <label class="form-check-label">Apply</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" asp-for="SalaryMaster.IsEnableEPF" value="false">
+                            <label class="form-check-label">Ignore</label>
+                        </div>
+                    </div>
+                </div>
+                <div class=" form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.EPF_Y">EPF<span class="text-danger">*</span></label>
+                    </div>
+                    <div class=" col-6">
+                        <input asp-for="SalaryMaster.EPF_Y" class="form-control" id="EPF_Y" required />
+                    </div>
+                </div>
+            </div>
+
+
+            @*for month*@
+            <div class="monthly-section" id="monthlySection">
+                <div class="form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.TotalCTC_M">Total CTC </label>
+                        <span asp-validation-for="SalaryMaster.TotalCTC_M" class="text-danger"></span>
+                    </div>
+                    <div class=" col-6">
+                        <input asp-for="SalaryMaster.TotalCTC_M" class="form-control" id="TotalCTC_M" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.BaseSalary_M">Base Salary </label>
+                        <span asp-validation-for="SalaryMaster.BaseSalary_M" class="text-danger"></span>
+                    </div>
+                    <div class=" col-6">
+                        <input asp-for="SalaryMaster.BaseSalary_M" class="form-control" id="BaseSalary_M" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.HRA_M">House Rent Allowance</label>
+                        <span asp-validation-for="SalaryMaster.HRA_M" class="text-danger"></span>
+                    </div>
+                    <div class=" col-6">
+                        <input asp-for="SalaryMaster.HRA_M" class="form-control" id="HRA_M" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.SpecialAllowance_M">Special Allowance</label>
+                        <span asp-validation-for="SalaryMaster.SpecialAllowance_M" class="text-danger"></span>
+                    </div>
+                    <div class=" col-6">
+                        <input asp-for="SalaryMaster.SpecialAllowance_M" class="form-control" id="SpecialAllowance_M" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class=" col-3 offset-2">
+                        <label asp-for="SalaryMaster.EPF_M">Employee's Provident Funds</label>
+                        <span asp-validation-for="SalaryMaster.EPF_M" class="text-danger"></span>
+                    </div>
+                    <div class=" col-6">
+                        <input asp-for="SalaryMaster.EPF_M" class="form-control" id="EPF_M" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="SalaryMaster.ApplicableFrom">Applicable From </label>
+                    <span asp-validation-for="SalaryMaster.ApplicableFrom" class="text-danger">*</span>
+                </div>
+                <div class=" col-6">
+                    <input type="date" asp-for="SalaryMaster.ApplicableFrom" class="form-control" required>
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="SalaryMaster.ApplicableTo">Applicable Upto</label>
+                    <span asp-validation-for="SalaryMaster.ApplicableTo" class="text-danger">*</span>
+                </div>
+                <div class=" col-6">
+                    <input type="date" asp-for="SalaryMaster.ApplicableTo" class="form-control" required>
+
+                </div>
+            </div>
+            <div class=" form-group row mt-3">
+                <div class="col-3 offset-3">
+                    @if (Model.SalaryMaster.Struct_ID != 0)
+                    {
+                        <input type="hidden" asp-for="SalaryMaster.Struct_ID" />
+                    }
+                    <input type="hidden" asp-for="SalaryMaster.EmpId" />
+                    <button type="submit" class="btn btn-primary form-control">@(Model.SalaryMaster.Struct_ID == 0 ? "Create" : "Update")</button>
+                </div>
+                <div class="col-3">
+                    <a href="/SalaryMaster/Index" class="btn btn-secondary form-control">Back To List</a>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Get the input elements
+            var totalCTCYearlyInput = $('#TotalCTC_Y');
+            var basicSalaryYearlyInput = $('#BaseSalary_Y');
+            var hraYearlyInput = $('#HRA_Y');
+            var specialAllowancesYearlyInput = $('#SA_Y');
+            var partBEpfYearlyInput = $('#EPF_Y');
+
+            var totalCTCMonthlyInput = $('#TotalCTC_M');
+            var basicSalaryMonthlyInput = $('#BaseSalary_M');
+            var hraMonthlyInput = $('#HRA_M');
+            var specialAllowancesMonthlyInput = $('#SpecialAllowance_M');
+            var partBEpfMonthlyInput = $('#EPF_M');
+
+            var enableAutoCalculationCheckbox = $('#EnableAutoCalculation');
+
+            function calculateMonthlyValues() {
+                var basicSalaryYearly = parseFloat(basicSalaryYearlyInput.val()) || 0;
+                var hraYearly = parseFloat(hraYearlyInput.val()) || 0;
+                var specialAllowancesYearly = parseFloat(specialAllowancesYearlyInput.val()) || 0;
+                var partBEpfYearly = parseFloat(partBEpfYearlyInput.val()) || 0;
+
+                var basicSalaryMonthly = Math.round(basicSalaryYearly / 12);
+                var hraMonthly = Math.round(hraYearly / 12);
+                var specialAllowancesMonthly = Math.round(specialAllowancesYearly / 12);
+                var partBEpfMonthly = Math.round(partBEpfYearly / 12);
+
+                basicSalaryMonthlyInput.val(basicSalaryMonthly);
+                hraMonthlyInput.val(hraMonthly);
+                specialAllowancesMonthlyInput.val(specialAllowancesMonthly);
+                partBEpfMonthlyInput.val(partBEpfMonthly);
+            }
+
+            // On input for total CTC per annum
+            totalCTCYearlyInput.on('input', function () {
+                if (enableAutoCalculationCheckbox.prop('checked')) {
+                    var totalCTC = parseFloat(totalCTCYearlyInput.val());
+
+                    var basicSalary = Math.round(0.4 * totalCTC);
+                    var hra = Math.round(0.4 * basicSalary);
+                    var specialAllowances = Math.round(0.3 * totalCTC);
+                    var partBEpf = $('#rdbEnablePF').is(":checked") ? (Math.round(0.12 * basicSalary)) : 0;
+
+                    basicSalaryYearlyInput.val(basicSalary);
+                    hraYearlyInput.val(hra);
+                    specialAllowancesYearlyInput.val(specialAllowances);
+                    partBEpfYearlyInput.val(partBEpf);
+
+                    calculateMonthlyValues();
+
+                    var totalCTCMonthly = Math.round(totalCTC / 12);
+                    totalCTCMonthlyInput.val(totalCTCMonthly);
+                }
+            });
+
+            // On input for base salary yearly
+            basicSalaryYearlyInput.on('input', function () {
+                if (enableAutoCalculationCheckbox.prop('checked')) {
+                    var basicSalaryYearly = parseFloat(basicSalaryYearlyInput.val()) || basicSalary;
+                    var hraYearly = Math.round(0.4 * basicSalaryYearly);
+                    var partBEpfYearly = $('#rdbEnablePF').is(":checked") ? Math.round(0.12 * basicSalaryYearly) : 0;
+
+                    // Monthly values
+                    var hraMonthly = Math.round(hraYearly / 12);
+                    var partBEpfMonthly = Math.round(partBEpfYearly / 12);
+
+                    // Update fields
+                    hraYearlyInput.val(hraYearly);
+                    partBEpfYearlyInput.val(partBEpfYearly);
+                    hraMonthlyInput.val(hraMonthly);
+                    partBEpfMonthlyInput.val(partBEpfMonthly);
+
+                    calculateMonthlyValues();
+                } else {
+                    // Calculate monthly values when automatic calculation is disabled
+                    calculateMonthlyValues();
+
+                    var totalCTCYearly = parseFloat(totalCTCYearlyInput.val()) || 0;
+                    var totalCTCMonthly = Math.round(totalCTCYearly / 12);
+                    totalCTCMonthlyInput.val(totalCTCMonthly);
+                }
+            });
+
+            // On input for HRA, special allowances, and part B EPF yearly
+            hraYearlyInput.on('input', calculateMonthlyValues);
+            specialAllowancesYearlyInput.on('input', calculateMonthlyValues);
+            partBEpfYearlyInput.on('input', calculateMonthlyValues);
+
+            // On change of the Enable Auto Calculation checkbox
+            enableAutoCalculationCheckbox.change(function () {
+                if (enableAutoCalculationCheckbox.prop('checked')) {
+                    // If automatic calculation is enabled, trigger calculation
+                    totalCTCYearlyInput.trigger('input');
+                } else {
+                    // If manual entry is allowed, clear the monthly values
+                    totalCTCMonthlyInput.val('');
+                    basicSalaryMonthlyInput.val('');
+                    hraMonthlyInput.val('');
+                    specialAllowancesMonthlyInput.val('');
+                    partBEpfMonthlyInput.val('');
+                }
+            });
+        });
+
+        //for navbar
+        $(document).ready(function () {
+            $("#yearIndicator").click(function () {
+                $("#yearlySection").show();
+                $("#monthlySection").hide();
+                $("#yearIndicator").addClass("active");
+                $("#monthIndicator").removeClass("active");
+            });
+
+            $("#monthIndicator").click(function () {
+                $("#monthlySection").show();
+                $("#yearlySection").hide();
+                $("#monthIndicator").addClass("active");
+                $("#yearIndicator").removeClass("active");
+            });
+        });
+    </script>
+}
+
+
+
+
+@* @section Scripts {
+    <script>
+
+        $(document).ready(function () {
+            // Get the input elements
+            var totalCTCYearlyInput = $('#TotalCTC_Y');
+            var basicSalaryYearlyInput = $('#BaseSalary_Y');
+            var hraYearlyInput = $('#HRA_Y');
+            var specialAllowancesYearlyInput = $('#SA_Y');
+            var partBEpfYearlyInput = $('#EPF_Y');
+
+            var totalCTCMonthlyInput = $('#TotalCTC_M');
+            var basicSalaryMonthlyInput = $('#BaseSalary_M');
+            var hraMonthlyInput = $('#HRA_M');
+            var specialAllowancesMonthlyInput = $('#SpecialAllowance_M');
+            var partBEpfMonthlyInput = $('#EPF_M');
+
+            function calculateMonthlyValues() {
+                var basicSalaryYearly = parseFloat(basicSalaryYearlyInput.val()) || 0;
+                var hraYearly = parseFloat(hraYearlyInput.val()) || 0;
+                var specialAllowancesYearly = parseFloat(specialAllowancesYearlyInput.val()) || 0;
+                var partBEpfYearly = parseFloat(partBEpfYearlyInput.val()) || 0;
+
+
+                var basicSalaryMonthly = Math.round(basicSalaryYearly / 12);
+                var hraMonthly = Math.round(hraYearly / 12);
+                var specialAllowancesMonthly = Math.round(specialAllowancesYearly / 12);
+                var partBEpfMonthly = Math.round(partBEpfYearly / 12);
+
+                basicSalaryMonthlyInput.val(basicSalaryMonthly);
+                hraMonthlyInput.val(hraMonthly);
+                specialAllowancesMonthlyInput.val(specialAllowancesMonthly);
+                partBEpfMonthlyInput.val(partBEpfMonthly);
+            }
+            //oninput ctc per annum
+            totalCTCYearlyInput.on('input', function () {
+                var totalCTC = parseFloat(totalCTCYearlyInput.val());
+
+                var basicSalary = Math.round(0.4 * totalCTC);
+                var hra = Math.round(0.4 * basicSalary);
+                var specialAllowances = Math.round(0.3 * totalCTC);
+                var partBEpf = $('#rdbEnablePF').is(":checked") ? (Math.round(0.12 * basicSalary)) : 0;
+
+                basicSalaryYearlyInput.val(basicSalary);
+                hraYearlyInput.val(hra);
+                specialAllowancesYearlyInput.val(specialAllowances);
+                partBEpfYearlyInput.val(partBEpf);
+
+                calculateMonthlyValues();
+
+                var totalCTCMonthly = Math.round(totalCTC / 12);
+                totalCTCMonthlyInput.val(totalCTCMonthly);
+
+            });
+
+            //when base salary is manually changed
+            basicSalaryYearlyInput.on('input', function () {
+                var basicSalaryYearly = parseFloat(basicSalaryYearlyInput.val()) || basicSalary;
+                var hraYearly = Math.round(0.4 * basicSalaryYearly);
+                var partBEpfYearly = $('#rdbEnablePF').is(":checked") ? Math.round(0.12 * basicSalaryYearly) : 0;
+
+                //monthly values
+                var hraMonthly = Math.round(hraYearly / 12);
+                var partBEpfMonthly = Math.round(partBEpfYearly / 12);
+
+                // Update fields
+                hraYearlyInput.val(hraYearly);
+                partBEpfYearlyInput.val(partBEpfYearly);
+                hraMonthlyInput.val(hraMonthly);
+                partBEpfMonthlyInput.val(partBEpfMonthly);
+
+                calculateMonthlyValues();
+            });
+            hraYearlyInput.on('input', calculateMonthlyValues);
+            specialAllowancesYearlyInput.on('input', calculateMonthlyValues);
+            partBEpfYearlyInput.on('input', calculateMonthlyValues);
+        });
+
+        //for navbar
+        $(document).ready(function () {
+            $("#yearIndicator").click(function () {
+                $("#yearlySection").show();
+                $("#monthlySection").hide();
+                $("#yearIndicator").addClass("active");
+                $("#monthIndicator").removeClass("active");
+            });
+
+            $("#monthIndicator").click(function () {
+                $("#monthlySection").show();
+                $("#yearlySection").hide();
+                $("#monthIndicator").addClass("active");
+                $("#yearIndicator").removeClass("active");
+            });
+        });
+    </script>
+} *@
+
+ 
+@* @section Scripts {
+    <script>
+
+        $(document).ready(function () {
+            // Get the input elements
+            var totalCTCYearlyInput = $('#TotalCTC_Y');
+            var basicSalaryYearlyInput = $('#BaseSalary_Y');
+            var hraYearlyInput = $('#HRA_Y');
+            var specialAllowancesYearlyInput = $('#SA_Y');
+            var partBEpfYearlyInput = $('#EPF_Y');
+
+            var totalCTCMonthlyInput = $('#TotalCTC_M');
+            var basicSalaryMonthlyInput = $('#BaseSalary_M');
+            var hraMonthlyInput = $('#HRA_M');
+            var specialAllowancesMonthlyInput = $('#SpecialAllowance_M');
+            var partBEpfMonthlyInput = $('#EPF_M');
+            var enableAutoCalculationCheckbox = $('#EnableAutoCalculation');
+
+
+            function calculateMonthlyValues() {
+                    var basicSalaryYearly = parseFloat(basicSalaryYearlyInput.val()) || 0;
+                    var hraYearly = parseFloat(hraYearlyInput.val()) || 0;
+                    var specialAllowancesYearly = parseFloat(specialAllowancesYearlyInput.val()) || 0;
+                    var partBEpfYearly = parseFloat(partBEpfYearlyInput.val()) || 0;
+
+
+                    var basicSalaryMonthly = Math.round(basicSalaryYearly / 12);
+                    var hraMonthly = Math.round(hraYearly / 12);
+                    var specialAllowancesMonthly = Math.round(specialAllowancesYearly / 12);
+                    var partBEpfMonthly = Math.round(partBEpfYearly / 12);
+
+                    basicSalaryMonthlyInput.val(basicSalaryMonthly);
+                    hraMonthlyInput.val(hraMonthly);
+                    specialAllowancesMonthlyInput.val(specialAllowancesMonthly);
+                    partBEpfMonthlyInput.val(partBEpfMonthly);
+                
+            }
+
+            
+            //oninput ctc per annum
+            totalCTCYearlyInput.on('input', function () {
+                var totalCTC = parseFloat(totalCTCYearlyInput.val());
+
+                var basicSalary = Math.round(0.4 * totalCTC);
+                var hra = Math.round(0.4 * basicSalary);
+                var specialAllowances = Math.round(0.3 * totalCTC);
+                var partBEpf = $('#rdbEnablePF').is(":checked") ? (Math.round(0.12 * basicSalary)) : 0;
+
+                basicSalaryYearlyInput.val(basicSalary);
+                hraYearlyInput.val(hra);
+                specialAllowancesYearlyInput.val(specialAllowances);
+                partBEpfYearlyInput.val(partBEpf);
+
+                calculateMonthlyValues();
+                
+
+                var totalCTCMonthly = Math.round(totalCTC / 12);
+                totalCTCMonthlyInput.val(totalCTCMonthly);
+
+            });
+
+            //when base salary is manually changed
+            basicSalaryYearlyInput.on('input', function () {
+                var basicSalaryYearly = parseFloat(basicSalaryYearlyInput.val()) || basicSalary;
+                var hraYearly = Math.round(0.4 * basicSalaryYearly);
+                var partBEpfYearly = $('#rdbEnablePF').is(":checked") ? Math.round(0.12 * basicSalaryYearly):0;
+
+                //monthly values
+                var hraMonthly = Math.round(hraYearly / 12);
+                var partBEpfMonthly = Math.round(partBEpfYearly / 12);
+
+                // Update fields
+                hraYearlyInput.val(hraYearly);
+                partBEpfYearlyInput.val(partBEpfYearly);
+                hraMonthlyInput.val(hraMonthly);
+                partBEpfMonthlyInput.val(partBEpfMonthly);
+
+                calculateMonthlyValues();
+            });
+            hraYearlyInput.on('input', calculateMonthlyValues);
+            specialAllowancesYearlyInput.on('input', calculateMonthlyValues);
+            partBEpfYearlyInput.on('input', calculateMonthlyValues);
+            
+        });
+
+        //for navbar
+        $("#yearIndicator").click(function () {
+            $("#yearlySection").addClass("active");
+            $("#monthlySection").removeClass("active");
+            $("#yearIndicator").addClass("active");
+            $("#monthIndicator").removeClass("active");
+            calculateMonthlyValues(); // Added this line to recalculate monthly values on yearly view
+        });
+
+        $("#monthIndicator").click(function () {
+            console.log("OK tested");
+            $("#monthlySection").addClass("active");
+            $("#yearlySection").removeClass("active");
+            $("#monthIndicator").addClass("active");
+            $("#yearIndicator").removeClass("active");
+            calculateMonthlyValues(); // Added this line to recalculate monthly values on monthly view
+        });
+
+    });
+    </script>
+} *@

@@ -1,0 +1,81 @@
+﻿@page
+@model CRM.Pages.AssetAllocation.IndexModel
+@{
+    Layout = "_Layout";
+}
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Asset Allocation list</h3>
+    <div class="card-body">
+        <div class="table-editable">
+            <span class="table-add float-right">
+                <a href="/AssetAllocation/Create" class="text-success" title="Add Asset">
+                    <i class="fas fa-plus fa-3x" aria-hidden="true">
+                    </i>
+                </a>
+            </span>
+            <form method="post">
+                
+                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Asset Name</th>
+                            <th>Assigned To</th>
+                            <th>Allocated on</th>                           
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var asset in Model.AssetAllocation)
+                        {
+                            <tr>
+                                @if (asset.Status == CRM.Models.AssetStatus.Allocated)
+                                {
+                                    <td>@Html.DisplayFor(m => asset.AssetMaster.Name)</td>
+
+                                    <td>@Html.DisplayFor(m => asset.EmployeeMaster.EmployeeName)</td>
+                                    <td>@Html.DisplayFor(m => asset.AllocatedOn)</td>
+                                    <td>@Html.DisplayFor(m => asset.Status)</td>
+
+                                    @*                                <td>@Html.DropDownList("ddlEmployeeName", new SelectList(Model.AssetAllocation, asset.EmployeeMaster.Id.ToString(), asset.EmployeeMaster.EmployeeName.ToString()), "Select EmployeeName")</td>
+*@
+                                    <td>
+                                        <ul class="list-inline m-0">
+                                            <li class="list-inline-item">
+                                                <span title="Edit">
+                                                    <a href="/AssetAllocation/Create?Id=@asset.Id" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-edit">
+                                                        </i>
+                                                    </a>
+                                                </span>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <span title="Delete">
+                                                    <button asp-page-handler="Delete" asp-route-id="@asset.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">
+                                                        <i class="fa fa-trash">
+                                                        </i>
+                                                    </button>
+                                                </span>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <span title="Deallocate">
+                                                    <button asp-page-handler="Deallocate" asp-route-id="@asset.Id" class="btn btn-danger btn-sm">
+                                                        <i class="fa fa-ban">
+                                                        </i>
+                                                    </button>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div>
+                    <button class="btn -btn primary" asp-page="AssetHistory">Asset Allocation History</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,285 @@
+﻿@page
+@model CRM.Pages.EmployeeMaster.CreateModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">@(Model.EmployeeMaster.Id != 0 ? "Edit" : "Create") Employee</h3>
+    <br />
+    <div class="card-body">
+        <form method="post">
+            @if (Model.EmployeeMaster.Id != 0)
+            {
+                <input type="hidden" asp-for="EmployeeMaster.Id" />
+            }
+            <div class="form-group row">
+                <div class="col-2 offset-2">
+                    <label asp-for="EmployeeMaster.ManagerId">Manager<span class="text-danger">*</span></label>
+                </div>
+                <div class="col-6">
+                    <select asp-for="EmployeeMaster.ManagerId" asp-items="Model.ManagerOptions" class="form-control"></select>
+                    <span asp-validation-for="EmployeeMaster.ManagerId" class="text-danger"></span>
+                    <input type="hidden" asp-for="SelectedManagerId" />
+                </div>
+            </div>
+            <div class=" text-danger" asp-validation-summary="ModelOnly"></div>
+            <div class=" form-group row">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.EmployeeName">Employee Name<span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="EmployeeMaster.EmployeeName" class="form-control" id="EmployeeName" required />
+                </div>
+            </div>
+            <div class="form-group row m-2">
+                <div class=" offset-4">
+                    <span asp-validation-for="EmployeeMaster.EmployeeName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.Email">Email-Id <span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="EmployeeMaster.Email" class="form-control" id="email" required />
+                </div>
+            </div>
+            <div class="form-group row m-2">
+                <div class=" offset-4">
+                    <span asp-validation-for="EmployeeMaster.Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class=" form-group row mt-3">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.EmployeeId">Employee Id <span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    @if (Model.EmployeeMaster.Id > 0)
+                    {
+                        <input asp-for="EmployeeMaster.EmployeeId" class="form-control" id="EmployeeId" readonly="readonly"/>
+                        
+                    }
+                    else
+                    {
+                        <input asp-for="EmployeeMaster.EmployeeId" class="form-control" id="EmployeeId" required />
+
+                    }
+                </div>
+                
+            </div>
+            @if (ViewData["EmpIdExistMessage"] != null)
+            {
+                <div class="form-group row m-2">
+                    <div class=" offset-4">
+                        <span class="text-danger">@ViewData["EmpIdExistMessage"]</span>
+                    </div>
+                </div>
+            }
+            <div class="form-group row m-2">
+                <div class=" offset-4">
+                    <span asp-validation-for="EmployeeMaster.EmployeeId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.DateOfJoining" class="control-label">Date of Joining</label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="EmployeeMaster.DateOfJoining" class="form-control" type="date" id="DateOfJoining" required/>
+                </div>
+            </div>
+            <div class="form-group row m-2">
+                <div class=" offset-4">
+                    <span asp-validation-for="EmployeeMaster.DateOfJoining" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.PrimarySkills" class="control-label">Primary Skills</label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="EmployeeMaster.PrimarySkills" class="form-control" required id="PrimarySkills"/>
+                </div>
+            </div>
+            <div class="form-group row m-2">
+                <div class=" offset-4">
+                    <span asp-validation-for="EmployeeMaster.PrimarySkills" class="text-danger"></span>
+               </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.Designation" class="control-label">Designation<span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="EmployeeMaster.Designation" class="form-control" id="Designation" required />
+                </div>
+            </div>
+            
+            <div class="form-group row mt-3">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.pan" class="control-label">PAN No.<span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="EmployeeMaster.pan" class="form-control" id="PAN" name="EmployeeMaster.pan" required>
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.UAN" class="control-label">Adhar No.<span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="EmployeeMaster.UAN" class="form-control" id="BankAccno" required />
+                </div>
+            </div>
+
+            @*<div class="form-group row mt-3">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.LastUpdatedBy" class="control-label">Last Updated By</label>
+                </div>
+                <div class=" col-6">
+                    <select asp-for="EmployeeMaster.LastUpdatedBy" class="form-control" asp-items="ViewBag.LastUpdatedBy"></select>
+                </div>
+            </div>*@
+            <div class="form-group row mt-3">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.BankName" class="control-label">Bank Name<span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="EmployeeMaster.BankName" class="form-control"  id="BankName" required />
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class=" col-2 offset-2">
+                    <label asp-for="EmployeeMaster.Acc_No" class="control-label">Bank Account No.<span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="EmployeeMaster.Acc_No" class="form-control" id="BankAccno" required />
+                </div>
+            </div>
+
+            <div class="form-group row form-check mt-3 m-2">
+                <div class=" col-2 offset-4">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="EmployeeMaster.IsActive" /> @Html.DisplayNameFor(model => model.EmployeeMaster.IsActive)
+                    </label>
+                </div>
+            </div>
+
+            <div class=" form-group row mt-3">
+                <div class="col-3 offset-3">
+                    <button type="submit" id="btnEmployeeMasterSubmit" class="btn btn-primary form-control">@(Model.EmployeeMaster.Id != 0 ? "Update" : "Create")</button>
+
+                </div>
+                <div class=" col-3">
+                    <a asp-page="Index" class="btn btn-success form-control">Back to List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@*
+<div class="container col-sm-3">
+    <h4 class=" text-info ">Create New Employee</h4>
+</div>
+<br />
+<div class="border container" style=" padding:30px;">
+
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group row">
+            <div class=" col-2 offset-2">
+                <label asp-for="EmployeeMaster.EmployeeName" class="control-label">Employee Name</label>
+            </div>
+            <div class=" col-6">
+                <input asp-for="EmployeeMaster.EmployeeName" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row m-2">
+            <div class=" offset-4">
+                <span asp-validation-for="EmployeeMaster.EmployeeName" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <div class="form-group row mt-3">
+            <div class=" col-2 offset-2">
+                <label asp-for="EmployeeMaster.EmployeeId" class="control-label">Employee Id</label>
+            </div>
+            <div class=" col-6">
+                <input asp-for="EmployeeMaster.EmployeeId" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row m-2">
+            <div class=" offset-4">
+                <span asp-validation-for="EmployeeMaster.EmployeeId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row mt-3">
+            <div class=" col-2 offset-2">
+                <label asp-for="EmployeeMaster.DateOfJoining" class="control-label">Date of Joining</label>
+            </div>
+            <div class=" col-6">
+                <input asp-for="EmployeeMaster.DateOfJoining" class="form-control" type="date" />
+            </div>
+        </div>
+        <div class="form-group row m-2">
+            <div class=" offset-4">
+                <span asp-validation-for="EmployeeMaster.DateOfJoining" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row mt-3">
+            <div class=" col-2 offset-2">
+                <label asp-for="EmployeeMaster.PrimarySkills" class="control-label">Primary Skills</label>
+            </div>
+            <div class=" col-6">
+                <input asp-for="EmployeeMaster.PrimarySkills" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row m-2">
+            <div class=" offset-4">
+                <span asp-validation-for="EmployeeMaster.PrimarySkills" class="text-danger"></span>
+            </div>
+        </div>
+        
+        <div class="form-group row mt-3">
+            <div class=" col-2 offset-2">
+                <label asp-for="EmployeeMaster.LastUpdatedBy" class="control-label">Last Updated By</label>
+            </div>
+            <div class=" col-6">
+                <select asp-for="EmployeeMaster.LastUpdatedBy" class="form-control" asp-items="ViewBag.LastUpdatedBy"></select>
+            </div>
+        </div>
+
+        <div class="form-group row form-check mt-3 m-2">
+            <div class=" col-2 offset-4">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="EmployeeMaster.IsActive" /> @Html.DisplayNameFor(model => model.EmployeeMaster.IsActive)
+                </label>
+            </div>
+        </div>
+
+        <div class=" form-group row mt-3">
+            <div class="col-3 offset-3">
+                <input type="submit" value="Create Employee" class="btn btn-primary form-control" />
+
+            </div>
+            <div class=" col-3">
+                <a asp-page="Index" class="btn btn-success form-control">Back to List</a>
+            </div>
+        </div>
+    </form>
+
+</div>*@
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

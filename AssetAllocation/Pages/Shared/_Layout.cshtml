@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] -Teamverse CRM</title>
+    <!-- Favicon  -->
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="~/css/font.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="~/css/mdb.min.css">
+    <!-- MDBootstrap Datatables  -->
+    <link rel="stylesheet" href="~/css/datatables2.min.css">
+    <!-- Jquery UI Min  -->
+    <link rel="stylesheet" href="~/js/jquery-ui-1.12.1/jquery-ui.min.css">
+    <link href="~/css/jquery-weekdays.css" rel="stylesheet" />
+    <link href="~/css/wickedpicker.min.css" rel="stylesheet" />
+    <link href="~/css/custom.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-warning fixed-top">
+        <div class="navbar-brand">
+            <img class="img-responsive" src="~/logo - Copy.png" alt="Logo" width="20%" height="20%">
+        </div>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link border px-2" href="/Login/Index">
+                    <i class="fas fa-sign-out-alt"></i>Logout
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Select "Logout" below if you are ready to end your current session.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-md btn-grey" data-dismiss="modal">Cancel</button>
+                    <a href="/Login/Index" class="btn btn-md btn-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Sidebar -->
+    <div class="sidebar">
+        <ul>
+            <li><a href="/Dashboard/Index"><i class="fas fa-home"></i><span>Home</span></a></li>
+            @if (ViewBag.LoggedUserRole == CRM.Models.UserRoles.SuperAdmin)
+            {
+                <li><a href="/Users/Index"><i class="fas fa-users"></i><span>Manage Users</span></a></li>
+                <li><a href="/SalaryMaster/Index"><i class="fas fa-server"></i><span>Manage Salaries</span></a></li>
+            }
+            <li><a href="/EmployeeMaster/Index"><i class="fas fa-users"></i><span>Manage Employees</span></a></li>
+            <li><a href="/AssetTypes/Index"><i class="fas fa-server"></i><span>Manage Asset Types</span></a></li>
+            <li><a href="/AssetMaster/Index"><i class="fas fa-server"></i><span>Manage Assets</span></a></li>
+            <li><a href="/AssetAllocation/Index"><i class="fas fa-server"></i><span>Manage Asset Allocation</span></a></li>
+            <li><a href="/Leave/Index"><i class="fas fa-server"></i><span>Manage Leaves</span></a></li>
+            <li><a href="/SalaryMaster/Index"><i class="fas fa-rupee-sign"></i><span>Manage Salaries</span></a></li>
+        </ul>
+    </div>
+    <!--Main Body -->
+    <div class="main-body">
+        @RenderBody()
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/number-to-words/1.5.1/numberToWords.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="~/js/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/js/mdb.min.js"></script>
+    <!-- MDBootstrap Datatables  -->
+    <script type="text/javascript" src="~/js/datatables2.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery-weekdays.js"></script>
+    <script type="text/javascript" src="~/js/wickedpicker.min.js"></script>
+    <!-- Custom scripts  -->
+    <script type="text/javascript" src="~/js/scripts.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+@*<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] -Teamverse CRM</title>
+    <!-- Favicon  -->
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="~/css/font.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="~/css/mdb.min.css">
+    <!-- MDBootstrap Datatables  -->
+    <link rel="stylesheet" href="~/css/datatables2.min.css">
+    <!-- Jquery UI Min  -->
+    <link rel="stylesheet" href="~/js/jquery-ui-1.12.1/jquery-ui.min.css">
+    <link href="~/css/jquery-weekdays.css" rel="stylesheet" />
+    <link href="~/css/wickedpicker.min.css" rel="stylesheet" />
+    <link href="~/css/custom.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">AssetAllocation</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/AssetTypes/Index">Asset Types</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/AssetMaster/Index">Assets</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Users/Index">Users</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/EmployeeMaster/Index">Employee List</a>
+                        </li>
+                         @if(User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                Hello @User.Identity.Name!
+                            </li>
+                            <li class="nav-item">
+                                <form class="form-inline" asp-area="" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                </form>
+                            </li>
+                        }
+                       
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container col-sm-3">
+            &copy; 2022 - AssetAllocation - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="~/js/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="~/js/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/js/mdb.min.js"></script>
+    <!-- MDBootstrap Datatables  -->
+    <script type="text/javascript" src="~/js/datatables2.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery-weekdays.js"></script>
+    <script type="text/javascript" src="~/js/wickedpicker.min.js"></script>
+    <!-- Custom scripts  -->
+    <script type="text/javascript" src="~/js/scripts.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>*@

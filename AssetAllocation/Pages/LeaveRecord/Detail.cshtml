@@ -1,0 +1,73 @@
+﻿@page 
+@model CRM.Pages.LeaveRecord.DetailModel
+@using CRM.Models
+@{
+    Layout = "_Layout";
+}
+
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4"> Leave Record Details - @Model.Leave.Year</h3>
+    <div class="card-body">
+    <div class="table-editable">
+    <p>Total Leaves: @Model.Leave.TotalLeaves</p>
+    <p>Leaves Taken: @Model.LeavesTaken</p>
+    <p>Remaining Leaves: @Model.RemainingLeaves</p>
+    <p>Additional Leaves: @Model.AdditionalLeaves</p>
+
+
+<div>
+    <h3>Approved and Rejected Leave Records</h3>
+    <form method="post">
+
+    <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Total Days</th>
+                <th>Leave Reason</th>
+                <th>Status</th>
+                <th>Approved By</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var leaveRecord in Model.ApprovedLeaves)
+            {
+                <tr>
+                    <td>@leaveRecord.FromDate.ToShortDateString()</td>
+                    <td>@leaveRecord.ToDate.ToShortDateString()</td>
+                    <td>@leaveRecord.TotalLeaves</td>
+                    <td>@leaveRecord.LeaveReason</td>
+                    <td class="text-success">Approved</td>
+                    <td>@leaveRecord.Users.FullName</td>
+                    <td>
+                        <a asp-page="/LeaveRecord/Create" asp-route-leaveRecordId="@leaveRecord.LeaveRecordId" class="btn btn-primary">Edit Leave</a>
+                    </td>
+                </tr>
+            }
+
+            @foreach (var leaveRecord in Model.RejectedLeaves)
+            {
+                <tr>
+                    <td>@leaveRecord.FromDate.ToShortDateString()</td>
+                    <td>@leaveRecord.ToDate.ToShortDateString()</td>
+                    <td>@leaveRecord.TotalLeaves</td>
+                    <td>@leaveRecord.LeaveReason</td>
+                    <td class="text-danger">Rejected</td>
+                    <td>@leaveRecord.Users.FullName</td>
+                    <td>
+                         <a asp-page="/LeaveRecord/Create" asp-route-leaveRecordId="@leaveRecord.LeaveRecordId" class="btn btn-primary">Edit Leave</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+                <div class="col-3 ">
+                    <a href="/Leave/Index" class="btn btn-secondary ">Back To List</a>
+                </div>
+    </form>
+</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,176 @@
+﻿@page
+@model CRM.Pages.AssetMaster.IndexModel
+
+@{
+    Layout = "_Layout";
+}
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Asset list</h3>
+    <div class="card-body">
+        <div class="table-editable">
+            <span class="table-add float-right">
+                <a href="/AssetMaster/Create" class="text-success" title="Add Asset">
+                    <i class="fas fa-plus fa-3x" aria-hidden="true">
+                    </i>
+                </a>
+            </span>
+            <form method="post">
+
+                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Manufacturer Number</th>
+                            <th>Asset Name</th>
+                            <th>Teamverse Asset Number</th>
+                            <th>Asset Type</th>
+                            <th>Purchased On</th>
+                            <th>Condition</th>
+                            <th>Created On</th>
+                            <th>Last Updated By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var asset in Model.AssetMaster)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(m => asset.ManufacturerNumber)</td>
+                                <td>@Html.DisplayFor(m => asset.Name)</td>
+                                <td>@Html.DisplayFor(m => asset.TeamverseAssetNumber)</td>
+                                <td>@Html.DisplayFor(m => asset.AssetTypes.Name)</td>
+                                <td>@Html.DisplayFor(m => asset.PurchasedOn)</td>
+                                <td>@Html.DisplayFor(m => asset.Condition)</td>
+                                <td>@Html.DisplayFor(m => asset.CreatedOn)</td>
+                                <td>@Html.DisplayFor(m => asset.Users.FullName)</td>
+                                
+                     
+                                <td>
+                                    <ul class="list-inline m-0">
+                                        <li class="list-inline-item">
+                                            <span title="Edit">
+                                                <a href="/AssetMaster/Create?Id=@asset.Id" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-edit">
+                                                    </i>
+                                                </a>
+                                            </span>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <span title="Delete">
+                                                <button asp-page-handler="Delete" asp-route-id="@asset.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-trash">
+                                                    </i>
+                                                </button>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+@*<div class=" container row p-0 m-0">
+    <div class=" col-6">
+        <h2 class="text-info">Asset List</h2>
+    </div>
+    <div class=" col-3 offset-3">
+        <a asp-page="Create" class="btn btn-info form-control text-white">Add New Asset</a>
+    </div>
+
+    <div class=" col-12 border p-3 mt-3">
+        <form method="post">
+
+            @if (Model.AssetMaster.Count() > 0)
+            {
+
+                <table class=" container table table-striped border">
+
+                    <tr class=" table-secondary">
+                        <th>
+                            <label class="text-primary">Manufacturer Number</label>
+                        </th>
+
+                        <th>
+                            <label class="text-primary">Asset Name</label>
+                        </th>
+                        <th>
+                            <label class="text-primary">Teamverse Asset Number</label>
+                        </th>
+                        <th>
+                            <label class="text-primary">Asset Type</label>
+                        </th>
+                        <th>
+                            <label class="text-primary">Purchased On</label>
+                        </th>
+                        <th>
+                            <label class="text-primary">Created On</label>
+                        </th>
+                        <th>
+                            <label class="text-primary">Condition</label>
+                        </th>
+                        <th>
+                            <label class="text-primary">IsDeleted?</label>
+                        </th>
+                        <th>
+                            <label class="text-primary">Last Updated By</label>
+                        </th>
+                        
+                        <th></th>
+                    </tr>
+
+                    <tbody>
+                        @foreach (var item in Model.AssetMaster)
+                        {
+                            <tr>
+                                <td class="col-2">
+                                    @Html.DisplayFor(modelItem => item.ManufacturerNumber)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.TeamverseAssetNumber)
+                                </td>
+                                <td class="col-2">
+                                    @Html.DisplayFor(modelItem => item.AssetTypes.Name)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.PurchasedOn)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.Condition)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.IsDeleted)
+                                </td>
+                                <td class="col-2">
+                                    @Html.DisplayFor(modelItem => item.Users.FullName)
+                                </td>
+                                
+                                <td class="col-2">
+                                    <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm">Edit</a>
+                                    <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">Delete</button>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No Asset Available</p>
+            }
+
+        </form>
+
+    </div>
+
+</div>*@
+

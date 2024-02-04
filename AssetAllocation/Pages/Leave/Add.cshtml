@@ -1,0 +1,51 @@
+﻿@page
+@model CRM.Pages.Leave.AddModel
+@{
+    Layout = "_Layout";
+}
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
+        @(Model.Leave.LeaveId != 0 ? "Update Leave Structure" : "Add Leave Structure")
+    </h3>
+    <br />
+    <div class="card-body">
+        <form method="post">
+            <div class="form-group">
+            <label asp-for="Leave.EmpId">Employee Name:</label>
+                @Html.DropDownList("ddlEmployeeName", new SelectList(Model.EmployeeMaster, "Id", "EmployeeName",Model.Leave.EmpId), "Select Employee",htmlAttributes: new { @class = "form-control", required = "required",oninput = "setCustomValidity('')" })
+
+            <span asp-validation-for="Leave.EmpId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Year">Year</label>
+                <input asp-for="Leave.Year" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Leave.TotalLeaves">Total Days:</label>
+                <input asp-for="Leave.TotalLeaves"  class="form-control" id="TotalDays" name="Leave.TotalLeaves" required>
+            </div>
+            <div class=" form-group row mt-3">
+                <button type="submit" id="btnAssetMasterSubmit" onclick="" class="btn btn-primary">@(Model.Leave.LeaveId!= 0 ? "Update" : "Add")</button>
+            <div>
+                <a asp-page="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    var ddlEmployeeName = document.querySelector('#ddlEmployeeName');
+
+    var ddlEmployeeNameVal = ddlEmployeeName.value;
+    function validateddl() {
+     
+        if (ddlEmployeeNameVal < 1) {
+            alert("Please select Employee!");
+            ddlEmployeeName.setCustomValidity('');
+            return false;
+        }
+
+    }
+
+</script>

@@ -1,0 +1,157 @@
+﻿@page
+@model CRM.Pages.Users.IndexModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Users list</h3>
+    <div class="card-body">
+        <div class="table-editable">
+            <span class="table-add float-right">
+                <a href="/Users/Create" class="text-success" title="Add User">
+                    <i class="fas fa-plus fa-3x" aria-hidden="true">
+                    </i>
+                </a>
+            </span>
+                    <form method="post">
+
+                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Role</th>
+                            <th>Full Name</th>
+                            <th>IsActice</th>
+                            <th>Last Login</th>
+                            <th>Created on</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(m => user.UserName)</td>
+                                <td>@Html.DisplayFor(m => user.Role)</td>
+                                <td>@Html.DisplayFor(m => user.FullName)</td>
+                                <td>@Html.DisplayFor(m => user.IsActive)</td>
+                                <td>@user.LastLogin.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <td>@Html.DisplayFor(m => user.CreatedOn)</td>
+                                <td>
+                                    <ul class="list-inline m-0">
+                                        <li class="list-inline-item">
+                                            <span title="Edit">
+                                                <a href="/Users/Create?Id=@user.Id" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-edit">
+                                                    </i>
+                                                </a>
+                                            </span>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <span title="Delete">
+
+                                                <button asp-page-handler="Delete" asp-route-id="@user.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-trash">
+                                                    </i>
+                                                </button>
+
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </form>
+        </div>
+    </div>
+</div>
+
+
+@*<div class=" container row p-0 m-0">
+    <div class=" col-6">
+        <h2 class="text-info">User List</h2>
+    </div>
+    <div class=" col-3 offset-3">
+        <a asp-page="Create" class="btn btn-info form-control text-white">Create New User</a>
+    </div>
+
+    <div class=" col-12 border p-3 mt-3">
+        <form method="post">
+
+            @if (Model.Users.Count() > 0)
+            {
+
+                <table class=" table table-striped border">
+                    <tr class=" table-secondary">
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().UserName"></label>
+                        </th>
+
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().Role"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().FullName"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().IsActive"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().LastLogin"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().CreatedOn"></label>
+                        </th>
+
+                        <th>
+
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.Users)
+                    {
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => item.UserName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(m => item.Role)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.IsActive)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.LastLogin.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.CreatedOn)
+                            </td>
+
+                            <td>
+                                <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm">Edit</a>
+                                <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">Delete</button>
+
+                            </td>
+                        </tr>
+
+                    }
+                </table>
+            }
+            else
+            {
+                <p>No Employee added yet</p>
+            }
+
+        </form>
+
+    </div>
+
+</div>*@
+

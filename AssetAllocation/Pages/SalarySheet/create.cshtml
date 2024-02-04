@@ -1,0 +1,521 @@
+﻿@page
+@model CRM.Pages.SalarySheet.createModel
+@{
+    Layout = "_Layout";
+}
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
+        @(Model.SalarySheet.SID == 0 ? "Create Salary Report" : "Update Salary Report")
+    </h3>
+    <br />
+    <div class="card-body">
+        <form method="post">
+            <div class="form-group row mt-3">
+                <div class="col-2 offset-2">
+                    <label>Employee Name : </label>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-5">
+                    <strong><span>@Model.EmployeeName</span></strong>
+
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class="col-2 offset-2">
+                    <label>Designation : </label>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-6">
+                    <strong><span>@Model.Designation</span></strong>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class=" col-3 offset-2">
+                    <label for="SalYear">Salary Year: </label>
+                    <span asp-validation-for="SalarySheet.SalYear" class="text-danger">*</span>
+                </div>
+                <div class=" col-4">
+                    <input type="number" class="form-control" id="SalYear" name="SalarySheet.SalYear" value="@Model.CurrentYear" />
+                </div> 
+            </div>
+            <div class="form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="@Model.SalarySheet.SalMonth">Salary Month:</label>
+                </div>
+                <div class=" col-5">
+                    <select class="form-control" asp-for="@Model.SalarySheet.SalMonth" id="SalMonth" onchange="calculateWorkingDays()" required>
+                        <option value="">Select Month</option>
+                        @foreach (var month in Model.MonthNames)
+                        {
+                            <option value="@month">@month</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="SalarySheet.workingDays">Working Days: <span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="SalarySheet.workingDays" class="form-control" id="wdays" required />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3 offset-2">
+                    <label asp-for="SalarySheet.LOPDays">LOSS OF PAY: <span class="text-danger">*</span></label>
+                </div>
+                <div class="col-6">
+                    <input type="text" asp-for="SalarySheet.LOPDays" class="form-control" id="LOPDays" readonly />
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="SalarySheet.PaidDays">Paid Days: <span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="SalarySheet.PaidDays" class="form-control" id="PaidDays" required />
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class="offset-6 pt-2">
+                    <h5 class="font-weight-bold text-center">Earnings </h5>
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="@Model.BaseSalary_M">BaseSalary : <span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input type="number" class="form-control" id="BaseSalary_M" name="SalarySheet.BaseSalary_M" value="@Model.BaseSalary_M" required />
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="@Model.HRA_M">House Rent Allowance : <span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input type="number" class="form-control" id="HRA_M" name="SalarySheet.HRA_M" value="@Model.HRA_M" required />
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="@Model.SpecialAllowance">Special Allowance : <span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input type="number" class="form-control" id="SpecialAllowance" name="SalarySheet.SpecialAllowances_M" value="@Model.SpecialAllowance" required />
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="SalarySheet.GrossSalary_M">Gross Salary: <span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input type="number" class="form-control" asp-for="SalarySheet.GrossSalary_M" id="GrossSalary_M" value="@Model.SalarySheet.GrossSalary_M" required />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3 offset-2">
+                    <label asp-for="SalarySheet.isAssuredPayoutPaid">Additional Bonus :<span class="text-danger">*</span></label>
+                </div>
+                <div class="col-6">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" asp-for="SalarySheet.isAssuredPayoutPaid" value="True" name="SalarySheet.isAssuredPayoutPaid">
+                        <label class="form-check-label">Pay</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" asp-for="SalarySheet.isAssuredPayoutPaid" type="radio" value="False" name="SalarySheet.isAssuredPayoutPaid">
+                        <label class="form-check-label">Ignore</label>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <div class="col-6">
+                            <input type="number" class="form-control" id="additionalBonus" name="SalarySheet.assuredPayoutPaid" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class="offset-6 pt-2">
+                    <h5 class="font-weight-bold text-center">Deductions </h5>
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="@Model.EPF_M">Employee Provident Funds: <span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input type="number" class="form-control" id="EPF_M" name="SalarySheet.EPF_M" value="@Model.EPF_M" required />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3 offset-2">
+                    <label asp-for="SalarySheet.IsEnablePT">Professional Tax<span class="text-danger">*</span></label>
+                </div>
+                <div class="col-6">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" asp-for="SalarySheet.IsEnablePT" value="True" name="SalarySheet.IsEnablePT">
+                        <label class="form-check-label">Apply</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" asp-for="SalarySheet.IsEnablePT" type="radio" value="False" name="SalarySheet.IsEnablePT">
+                        <label class="form-check-label">Ignore</label>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <div class="col-6">
+                            <input type="number" class="form-control" id="ProfessionalTax_M" name="SalarySheet.Part_B_ProfessionalTax_M" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-3 offset-2">
+                    <label for="@Model.SalarySheet.TaxableIncome_M">Taxable Income:</label>
+                </div>
+                <div class="col-6">
+                    <input type="number" asp-for="@Model.SalarySheet.TaxableIncome_M" class="form-control" id="TaxableIncome" />
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="@Model.SalarySheet.TDS_M">Income Tax Deduction<span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="@Model.SalarySheet.TDS_M" class="form-control" id="IncomeTax_M" required />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3 offset-2">
+                    <label asp-for="@Model.SalarySheet.TotalDeduction_M"> Total Deduction: <span class="text-danger">*</span></label>
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" asp-for="@Model.SalarySheet.TotalDeduction_M" id="TotalDeduction" readonly />
+                </div>
+            </div>
+            <div class=" form-group row">
+                <div class=" col-3 offset-2">
+                    <label asp-for="@Model.SalarySheet.NetSal">Net Salary<span class="text-danger">*</span></label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="@Model.SalarySheet.NetSal" class="form-control" id="NetSal" required />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3 offset-2">
+                    <label>Net Salary in Words:</label>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" id="NetSalInWords" readonly />
+                </div>
+            </div>
+
+            <div class=" form-group row mt-3">
+                <div class="col-3 offset-3">
+                    <input type="hidden" asp-for="StructId" />
+                    <input type="hidden" asp-for="SalarySheet.EmpId" />
+                    <input type="hidden" asp-for="SalarySheet.SID" />
+                    <button type="submit" class="btn btn-primary form-control">@(Model.SalarySheet.SID == 0 ? "Create" : "Update")</button>
+                </div>
+                <div class="col-3">
+                    <a href="/SalarySheet/Detail?structId=@Model.StructId" class="btn btn-secondary form-control">Back To List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            // Select the input fields by their IDs
+            var baseSalaryInput = $('#BaseSalary_M');
+            var hraInput = $('#HRA_M');
+            var specialAllowanceInput = $('#SpecialAllowance');
+            var grossSalaryInput = $('#GrossSalary_M');
+            var epfInput = $('#EPF_M');
+
+            // Function to calculate  Gross Salary
+            function updateGrossSalary() {
+                var baseSalary = parseFloat(baseSalaryInput.val()) || 0;
+                var hra = parseFloat(hraInput.val()) || 0;
+                var specialAllowance = parseFloat(specialAllowanceInput.val()) || 0;
+                var epf = parseFloat(epfInput.val()) || 0;
+
+                var grossSalary = baseSalary + hra + specialAllowance;
+                grossSalaryInput.val(grossSalary);
+                updateTaxableIncome();
+                updateNetSal();
+            }
+
+            $('#BaseSalary_M').on('change', function () {
+                updateGrossSalary();
+            });
+            $('#HRA_M').on('change', function () {
+                updateGrossSalary();
+            });
+            $('#SpecialAllowance').on('change', function () {
+                updateGrossSalary();
+            });
+
+            updateGrossSalary();
+            updateTaxableIncome();
+
+        });
+        
+        $(document).ready(function () {
+            //var salMonthInput = $('select[name="SalarySheet.SalMonth"]');
+            var salMonthInput = $('#SalMonth');
+            var isEnablePTInput = $('input[name="SalarySheet.IsEnablePT"]');
+            var professionalTaxMInput = $('#ProfessionalTax_M');
+
+            function updateProfessionalTaxM() {
+                var isEnablePT = isEnablePTInput.filter(':checked').val() === 'True';
+                var salMonth = salMonthInput.val();
+
+
+
+                // Default value
+                var professionalTaxM = 0;
+
+                // Check conditions
+                if (isEnablePT) {
+                    if (salMonth === "February") {
+                        professionalTaxM = 300;
+                    } else {
+                        professionalTaxM = 200;
+                    }
+                }
+
+                professionalTaxMInput.val(professionalTaxM);
+                updateTotalDeduction();
+            }
+
+            salMonthInput.on('change', updateProfessionalTaxM);
+            isEnablePTInput.on('change', updateProfessionalTaxM);
+
+            //function call
+            updateProfessionalTaxM();
+            updateTaxableIncome();
+
+
+        });
+
+        //for working days
+        var monthNames = @Html.Raw(Json.Serialize(Model.MonthNames));
+
+        function calculateWorkingDays() {
+            var selectedMonth = document.getElementById("SalMonth").value;
+            var selectedYear = document.getElementById("SalYear").value;
+
+            if (selectedMonth && selectedYear) {
+                var daysInMonth = new Date(selectedYear, monthNames.indexOf(selectedMonth) + 1, 0).getDate();
+
+                var coutOfworkingDays = 0;
+
+                for (var day = 1; day <= daysInMonth; day++) {
+                    var currentDate = new Date(selectedYear, monthNames.indexOf(selectedMonth), day);
+                    var dayOfWeek = currentDate.getDay();
+
+                    // for weekdays
+                    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                        coutOfworkingDays++;
+                    }
+                }
+                document.getElementById("wdays").value = coutOfworkingDays;
+            }
+        }
+
+        setTimeout(calculatePaidDays, 500);
+
+        function calculatePaidDays() {
+            var workingDays = parseFloat($('#wdays').val()) || 0;
+            var LOPDays = parseFloat($('#LOPDays').val()) || 0;
+            
+            var paidDays = workingDays - LOPDays;
+            $('#PaidDays').val(paidDays);
+
+        }
+        //document.getElementById("wdays").addEventListener("input", calculatePaidDays);
+        $('#SalMonth').on('change', function () {
+            calculatePaidDays();
+        });
+        $('#wdays').on('input', function () {
+            calculatePaidDays();
+        });
+        $('#LOPDays').on('input', calculatePaidDays);
+
+        calculatePaidDays();
+
+    </script>
+    <script>
+
+        function AdditionalBonus() {
+            var isAssuredPayoutPaid = $('input[name="SalarySheet.isAssuredPayoutPaid"]:checked').val() === 'True';
+            if (isAssuredPayoutPaid) {
+                // For Apply
+                var assuredPayout = parseFloat(@Model.additionalBonus) || 0;
+                $('#additionalBonus').val(assuredPayout);
+            } else {
+                //for ignore
+                $('#additionalBonus').val(0);
+            }
+        }
+
+        $('input[name="SalarySheet.isAssuredPayoutPaid"]').on('change', AdditionalBonus);
+        $('#additionalBonus').on('change', function () {
+            updateTaxableIncome();
+        });
+
+
+        AdditionalBonus();
+    </script>
+    <script>
+        //for totalDeduction
+        function updateTotalDeduction() {
+            var isEnablePT = $('input[name="SalarySheet.IsEnablePT"]:checked').val() === 'True';
+            var professionalTax_M = parseFloat($("#ProfessionalTax_M").val()) || 0;
+            var epf_M = parseFloat($("#EPF_M").val()) || 0;
+            //var incomeTax = parseFloat($("#IncomeTax_M").val()) || 0;
+            var selectedMonth = $("#SalMonth").val();
+
+            var professionalTaxRates = {
+                "January": 200,
+                "February": 300,
+                "March": 200,
+                "April": 200,
+                "May": 200,
+                "June": 200,
+                "July": 200,
+                "August": 200,
+                "September": 200,
+                "October": 200,
+                "November": 200,
+                "December": 200,
+            };
+
+
+            var totalDeduction = isEnablePT ? (epf_M +  professionalTaxRates[selectedMonth]) : epf_M ;
+
+
+            $("#TotalDeduction").val(totalDeduction);
+        }
+
+        $(document).ready(function () {
+            updateTotalDeduction();
+            updateTaxableIncome();
+            AdditionalBonus();
+        });
+
+        $('input[name="SalarySheet.IsEnablePT"]').on('change', function () {
+            updateTotalDeduction();
+            updateTaxableIncome();
+        });
+
+        $('#SalMonth').on('change', function () {
+            updateTotalDeduction();
+            updateTaxableIncome();
+        });
+
+        $('#IncomeTax_M').on('input', function () {
+            updateNetSal();
+        });
+        $('#EPF_M').on('input', function () {
+            updateTotalDeduction();
+        });
+
+        function updateTaxableIncome() {
+            var grossSalary = parseFloat($('#GrossSalary_M').val()) || 0;
+            var additionalBonus = parseFloat($('#additionalBonus').val()) || 0;
+            var totalDeduction = parseFloat($('#TotalDeduction').val()) || 0;
+
+            var taxableIncome = grossSalary + additionalBonus - totalDeduction;
+            $('#TaxableIncome').val(taxableIncome);
+            updateNetSal();
+        }
+
+        // Attach the function to relevant events
+        $('#GrossSalary_M, #additionalBonus, #TotalDeduction').on('change', updateTaxableIncome);
+        $('#TDS_M').on('change', function () {
+            updateTaxableIncome();
+            updateNetSal();
+        });
+        $('#EPF_M').on('input', function () {
+            updateTaxableIncome();
+            updateNetSal();
+        });
+
+        //for netsal
+        function updateNetSal() {
+            var taxableIncome = parseFloat($('#TaxableIncome').val()) || 0;
+            var incomeTaxDeduction = parseFloat($('#IncomeTax_M').val()) || 0;
+
+            var netSalary = taxableIncome - incomeTaxDeduction;
+            $('#NetSal').val(netSalary);
+            updateNetSalInWords();
+        }
+
+        // Attach the function to relevant events
+        $('#TaxableIncome, #IncomeTax_M').on('change', updateNetSal);
+
+        setTimeout(updateNetSalInWords, 500);
+
+        //for number in words
+        function numberToWords(num) {
+            const units = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+            const teens = ['Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            const tens = ['', 'Ten', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+            if (num === 0) return units[0];
+
+            function convertLessThanOneThousand(n) {
+                if (n < 10) return units[n];
+                if (n < 20) return teens[n - 11] || tens[1];
+                if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + units[n % 10] : '');
+                return units[Math.floor(n / 100)] + ' Hundred' + (n % 100 !== 0 ? ' and ' + convertLessThanOneThousand(n % 100) : '');
+            }
+
+            let words = '';
+
+            if (num < 0) {
+                words += 'Negative ';
+                num = Math.abs(num);
+            }
+
+            if (num >= 10000000) {
+                words += convertLessThanOneThousand(Math.floor(num / 10000000)) + ' Crore ';
+                num %= 10000000;
+            }
+
+            if (num >= 100000) {
+                words += convertLessThanOneThousand(Math.floor(num / 100000)) + ' Lakh ';
+                num %= 100000;
+            }
+
+            if (num >= 1000) {
+                words += convertLessThanOneThousand(Math.floor(num / 1000)) + ' Thousand ';
+                num %= 1000;
+            }
+
+            if (num > 0) {
+                words += convertLessThanOneThousand(num);
+            }
+
+            return words.trim();
+        }
+
+        function updateNetSalInWords() {
+            let NetSal = Math.floor(parseFloat($('#NetSal').val())) || 0;
+            let NetSalInWords = document.querySelector('#NetSalInWords');
+            let netSalWords = numberToWords(NetSal);
+            netSalWords += " Rupees only";
+            NetSalInWords.value = netSalWords;
+        }
+        $('#IncomeTax_M').on('input', updateNetSalInWords);
+        $('#NetSal').on('input', updateNetSalInWords);
+        updateNetSalInWords();
+
+
+    </script>
+}

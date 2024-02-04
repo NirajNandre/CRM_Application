@@ -1,0 +1,230 @@
+﻿@page
+@model CRM.Pages.SalarySheet.printModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Teamverse CRM</title>
+    <!-- Favicon  -->
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="~/css/font.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="~/css/mdb.min.css">
+    <!-- MDBootstrap Datatables  -->
+    <link rel="stylesheet" href="~/css/datatables2.min.css">
+    <!-- Jquery UI Min  -->
+    <link rel="stylesheet" href="~/js/jquery-ui-1.12.1/jquery-ui.min.css">
+    <link href="~/css/jquery-weekdays.css" rel="stylesheet" />
+    <link href="~/css/wickedpicker.min.css" rel="stylesheet" />
+    <link href="~/css/custom.css" rel="stylesheet" />
+</head>
+<body>
+    <style>
+    /* Your existing styles */
+
+        #printableArea {
+            margin: 0.4in 0.75in 0.4in 0.4in;
+        }
+
+
+        .custom-heading {
+            font-size: 60px;
+        }
+
+        .custom-subheading {
+            font-size: 15px; 
+        }
+
+       
+
+        
+</style>
+
+    <div class="m-2 p-4" >
+    <div id="printableArea" class="mx-auto">
+       <div class="container mt-4 mb-4">
+        <div class="row border border-5">
+            <div class="col-md-2 ml-5 mt-1">
+                <img class="img-responsive" src="~/logo - Copy.png" loading="lazy" alt="Logo" width="120%" height="90%" >
+            </div>
+            <div class="col-md-7 text-center">
+                <h1 class="mt-2 text-center font-weight-bold text-uppercase custom-heading">TEAMVERSE</h1>
+                <h6 class="mt-1 fs-2 mb-2 custom-subheading">
+                    Teamverse Software Services Pvt. Ltd. 67/525,<br />
+                    Maharshinagar, Gultekdi, Pune 411037
+                </h6>
+            </div>
+        </div>
+        <h4 class="font-weight-bold mt-4 text-center">Payment slip of @Model.SalarySheet.SalMonth-@Model.SalarySheet.SalYear</h4>
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-5">
+                <div class="row mt-3">
+                    <!-- column-1 -->
+                    <div class="col-md-12">
+                        <div>
+                            <span class="fw-bold">Employee Name :</span>
+                            <span class="ms-3 font-weight-bold">@Model.employeeName</span>
+                        </div>
+                        <div>
+                            <span class="fw-bold">Designation :</span>
+                            <span class="ms-3 font-weight-bold">@Model.Designation</span>
+                        </div>
+                        <div>
+                            <span class="fw-bold">Working Days :</span>
+                            <span class="ms-3 font-weight-bold">@Model.SalarySheet.workingDays</span>
+                        </div>
+                        <div>
+                            <span class="fw-bold">Bank Name :</span>
+                            <span class="ms-3 font-weight-bold">@Model.SalarySheet.EmployeeMaster.BankName</span>
+                        </div>
+                        <div>
+                            <span class="fw-bold">PAN No :</span>
+                            <span class="ms-3 font-weight-bold">@Model.SalarySheet.EmployeeMaster.pan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add some space between the columns -->
+            <div class="col-md-2"></div>
+
+            <div class="col-md-5">
+                <div class="row mt-3">
+                    <!-- column-2 -->
+                    <div class="col-md-12">
+                        <div>
+                            <span class="fw-bold">EMP ID :</span>
+                            <span class="ms-3 font-weight-bold">@Model.employeeId</span>
+                        </div>
+                        <div>
+                            <span class="fw-bold">Date Of Joining :</span>
+                            <span class="ms-3 font-weight-bold">@Model.DateOfJoining</span>
+                        </div>
+                        <div>
+                            <span class="fw-bold">LOP Days:</span>
+                            <span class="ms-3 font-weight-bold">@Model.SalarySheet.LOPDays</span>
+                        </div>
+                        <div>
+                            <span class="fw-bold">Acc No. :</span>
+                            <span class="ms-3 font-weight-bold">@Model.SalarySheet.EmployeeMaster.Acc_No</span>
+                        </div>
+                        <div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="mt-5 table table-bordered">
+            <thead class="text-center">
+                <tr>
+                            <th scope="col" class="font-weight-bold">Earnings</th>
+                            <th scope="col" class="font-weight-bold">Amount</th>
+                            <th scope="col" class="font-weight-bold">Deductions</th>
+                            <th scope="col" class="font-weight-bold">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Basic</th>
+                    <td>@Model.SalarySheet.BaseSalary_M</td>
+                    <th scope="row">EPF</th>
+                    <td>@Model.SalarySheet.EPF_M</td>
+                </tr>
+                <tr>
+                    <th scope="row">HRA</th>
+                    <td>@Model.SalarySheet.HRA_M</td>
+                    <th scope="row">Professional Tax</th>
+                    <td>@Model.SalarySheet.Part_B_ProfessionalTax_M</td>
+                </tr>
+                <tr>
+                    <th scope="row">Special Allowance</th>
+                    <td>@Model.SalarySheet.SpecialAllowances_M</td>
+                    <th scope="row">TDS</th>
+                    <td>@Model.SalarySheet.TDS_M</td>
+                </tr>
+                <tr>
+                    <th scope="row">Additional Bonus</th>
+                    <td>@Model.SalarySheet.assuredPayoutPaid</td>
+                    <th></th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <th></th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <th></th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <th></th>
+                    <td></td>
+                </tr>
+                <tr class="border-top">
+                    <th scope="row" class="font-weight-bold">Total Earning</th>
+                    <td>@Model.TotalEarning</td>
+                    <th class="font-weight-bold">Total Deductions</th>
+                    <td>@Model.TotalDeduction</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="font-weight-bold">Net Pay</th>
+                    <td colspan="3" class="text-end" id="NetSal">@Model.SalarySheet.NetSal</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="font-weight-bold">In Words</th>
+                            <td colspan="3" class="text-end" id="netSalInWords">@ViewData["NetSalInWords"]</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="space-container" style="height: 100px;"></div>
+        <div class="row mt-5 justify-content-center">
+            <p class="text-muted">This is a computer generated Payslip doesn't require any signature </p>
+        </div>
+    </div>
+    </div>
+    <div class="space-container" style="height: 200px;"></div>
+    <div class="row mt-3 justify-content-center">
+        <div class="col-md-3 text-center">
+            <a href="javascript:void(0);" class="btn btn-primary" onclick="printPageArea('printableArea')" download="SalarySlip.pdf">Print</a>
+        </div>
+        <div class="col-md-3 text-center">
+                <a class="btn btn-secondary" href="/SalarySheet/Detail?structId=@Model.SalarySheet.struct_Id" onclick="closeWindow()">Cancel</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+    <script type="text/javascript">
+        function printPageArea(printableArea) {
+            var printContent = document.getElementById(printableArea).innerHTML;
+            var originalContent = document.body.innerHTML;
+            document.body.innerHTML = printContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            window.close();
+        }
+
+        function closeWindow() {
+            window.close();
+        }
+
+    </script>

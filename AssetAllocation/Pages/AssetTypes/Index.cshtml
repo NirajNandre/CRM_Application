@@ -1,0 +1,139 @@
+﻿@page
+@model CRM.Pages.AssetTypes.IndexModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Asset Types list</h3>
+    <div class="card-body">
+        <div class="table-editable">
+            <span class="table-add float-right">
+                <a href="/AssetTypes/Create" class="text-success" title="Add Asset Type">
+                    <i class="fas fa-plus fa-3x" aria-hidden="true">
+                    </i>
+                </a>
+            </span>
+            <form method="post">
+
+                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Asset Type</th>
+                            <th>Prefix</th>   
+                            <th>Created On</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var assetype in Model.AssetTypes)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(m => assetype.Name)</td>
+                                <td>@Html.DisplayFor(m => assetype.Prefix)</td>                            
+                                <td>@Html.DisplayFor(m => assetype.CreatedOn)</td>
+                              
+                                <td>
+                                    <ul class="list-inline m-0">
+                                        <li class="list-inline-item">
+                                            <span title="Edit">
+                                                <a href="/AssetTypes/Create?Id=@assetype.Id" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-edit">
+                                                    </i>
+                                                </a>
+                                            </span>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <span title="Delete">
+                                                <button asp-page-handler="Delete" asp-route-id="@assetype.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-trash">
+                                                    </i>
+                                                </button>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*<div class=" container row p-0 m-0">
+    <div class=" col-6">
+        <h2 class="text-info">Asset List</h2>
+    </div>
+    <div class=" col-3 offset-3">
+        <a asp-page="Create" class="btn btn-info form-control text-white">Add New Asset</a>
+    </div>
+
+    <div class=" col-12 border p-3 mt-3">
+        <form method="post">
+
+            @if (Model.AssetTypes.Count() > 0)
+            {
+
+                <table class=" container table table-striped border">
+
+                    <tr class=" table-secondary">
+                        <th>
+                            <label class="text-primary">Asset Name</label>
+                        </th>
+
+                        <th>
+                            <label class="text-primary">Prefix</label>
+                        </th>
+
+                        <th>
+                            <label class="text-primary">IsDeleted?</label>
+                        </th>
+                        <th>
+                            <label class="text-primary">Created on</label>
+                        </th>
+                       
+                        <th></th>
+                    </tr>
+
+                    <tbody>
+                        @foreach (var item in Model.AssetTypes)
+                        {
+                            <tr>
+                                <td class="col-2">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.Prefix)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.IsDeleted)
+                                </td>
+                                <td class="col-2">
+                                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                                </td>
+                               
+                                <td class="col-2">
+                                    <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm">Edit</a>
+                                    <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">Delete</button>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No Asset Available</p>
+            }
+
+        </form>
+
+    </div>
+
+</div>*@
+
+

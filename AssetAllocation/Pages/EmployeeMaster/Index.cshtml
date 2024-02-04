@@ -1,0 +1,166 @@
+﻿@page
+@model CRM.Pages.EmployeeMaster.IndexModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="card m-3 border-light">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Employee list</h3>
+    <div class="card-body">
+        <div class="table-editable">
+            <span class="table-add float-right">
+                <a href="/EmployeeMaster/Create" class="text-success" title="Add Employee">
+                    <i class="fas fa-plus fa-3x" aria-hidden="true">
+                    </i>
+                </a>
+            </span>
+            <form method="post">
+
+                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Manager</th>
+                            <th>Employee Name</th>
+                            <th>Employee Id</th>
+                            <th>Email</th>
+                            <th>Joining Date</th>
+                            <th>Primary Skills</th>
+                            <th>Created on</th>
+                            <th>Last Updated By</th>
+                            <th>IsActive</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var employee in Model.EmployeeMaster)
+                        {
+                            <tr>
+                                <td>@Model.GetManagerName(employee.ManagerId)</td>
+                                <td>@Html.DisplayFor(m => employee.EmployeeName)</td>
+                                <td>@Html.DisplayFor(m => employee.EmployeeId)</td>
+                                <td>@Html.DisplayFor(m => employee.Email)</td>
+                                <td>@Html.DisplayFor(m => employee.DateOfJoining)</td>
+                                <td>@Html.DisplayFor(m => employee.PrimarySkills)</td>
+                                <td>@Html.DisplayFor(m => employee.CreatedOn)</td>
+                                <td>@Html.DisplayFor(m => employee.Users.FullName)</td>
+                                <td>@Html.DisplayFor(m => employee.IsActive)</td>
+                                <td>
+                                    <ul class="list-inline m-0">
+                                        <li class="list-inline-item">
+                                            <span title="Edit">
+                                                <a href="/EmployeeMaster/Create?Id=@employee.Id" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-edit">
+                                                    </i>
+                                                </a>
+                                            </span>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <span title="Delete">
+                                                <button asp-page-handler="Delete" asp-route-id="@employee.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-trash">
+                                                    </i>
+                                                </button>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@*<div class=" container row p-0 m-0">
+    <div class=" col-6">
+        <h2 class="text-info">Employee List</h2>
+    </div>
+    <div class=" col-3 offset-3">
+        <a asp-page="Create" class="btn btn-info form-control text-white">Create New Employee</a>
+    </div>
+
+    <div class=" col-12 border p-3 mt-3">
+        <form method="post">
+
+            @if (Model.EmployeeMaster.Count() > 0)
+            {
+
+                <table class=" container table table-striped border">
+                   
+                        <tr class=" table-secondary">
+                            <th>
+                            <label class="text-primary">Employee Name</label>
+                        </th>
+                         
+                             <th>
+                            <label class="text-primary">Employee Id</label>
+                        </th>
+                             <th>
+                            <label class="text-primary">Joining Date</label>
+                        </th>
+                            <th>
+                            <label class="text-primary">Primary Skills</label>
+                        </th>
+                            <th>
+                            <label class="text-primary">Created on</label>
+                        </th>
+                             <th>
+                            <label class="text-primary">Last Updated By</label>
+                        </th>
+                           <th>
+                            <label class="text-primary">IsActive?</label>
+                        </th>
+                            <th></th>
+                        </tr>
+                    
+                    <tbody>
+                        @foreach (var item in Model.EmployeeMaster)
+                        {
+                            <tr>
+                                <td class="col-2">
+                                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.DateOfJoining)
+                                </td>
+                                <td class="col-2">
+                                    @Html.DisplayFor(modelItem => item.PrimarySkills)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                                </td>
+                                <td class="col-2">
+                                    @Html.DisplayFor(modelItem => item.Users.FullName)
+                                </td>
+                                <td class="col-1">
+                                    @Html.DisplayFor(modelItem => item.IsActive)
+                                </td>
+                                <td class="col-2">
+                                    <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm">Edit</a>
+                                 <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">Delete</button>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No Employee Available</p>
+            }
+
+        </form>
+
+    </div>
+
+</div>
+*@
+
