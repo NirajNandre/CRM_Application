@@ -14,14 +14,16 @@
                     </i>
                 </a>
             </span>
-                    <form method="post">
+            <form method="post">
 
-                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center"
+                    cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>User Name</th>
                             <th>Role</th>
                             <th>Full Name</th>
+                            <th>PhoneNumber</th>
                             <th>IsActice</th>
                             <th>Last Login</th>
                             <th>Created on</th>
@@ -35,6 +37,7 @@
                                 <td>@Html.DisplayFor(m => user.UserName)</td>
                                 <td>@Html.DisplayFor(m => user.Role)</td>
                                 <td>@Html.DisplayFor(m => user.FullName)</td>
+                                <td>@Html.DisplayFor(m => user.PhoneNumber)</td>
                                 <td>@Html.DisplayFor(m => user.IsActive)</td>
                                 <td>@user.LastLogin.ToString("yyyy-MM-dd HH:mm:ss")</td>
                                 <td>@Html.DisplayFor(m => user.CreatedOn)</td>
@@ -51,7 +54,9 @@
                                         <li class="list-inline-item">
                                             <span title="Delete">
 
-                                                <button asp-page-handler="Delete" asp-route-id="@user.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">
+                                                <button asp-page-handler="Delete" asp-route-id="@user.Id"
+                                                    onclick="return confirm ('Are you sure you want to Delete?')"
+                                                    class="btn btn-danger btn-sm">
                                                     <i class="fa fa-trash">
                                                     </i>
                                                 </button>
@@ -64,7 +69,7 @@
                         }
                     </tbody>
                 </table>
-                </form>
+            </form>
         </div>
     </div>
 </div>

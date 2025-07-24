@@ -17,11 +17,13 @@
             </span>
             <form method="post">
 
-                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center" cellspacing="0" width="100%">
+                <table id="mdbootstraptable" class="table table-bordered table-responsive-md table-striped text-center"
+                    cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>Asset Type</th>
-                            <th>Prefix</th>   
+                            <th>Prefix</th>
+                            <th>Description</th>
                             <th>Created On</th>
                             <th>Actions</th>
                         </tr>
@@ -31,9 +33,10 @@
                         {
                             <tr>
                                 <td>@Html.DisplayFor(m => assetype.Name)</td>
-                                <td>@Html.DisplayFor(m => assetype.Prefix)</td>                            
+                                <td>@Html.DisplayFor(m => assetype.Prefix)</td>
+                                <td>@Html.DisplayFor(m => assetype.Description)</td>
                                 <td>@Html.DisplayFor(m => assetype.CreatedOn)</td>
-                              
+
                                 <td>
                                     <ul class="list-inline m-0">
                                         <li class="list-inline-item">
@@ -46,7 +49,9 @@
                                         </li>
                                         <li class="list-inline-item">
                                             <span title="Delete">
-                                                <button asp-page-handler="Delete" asp-route-id="@assetype.Id" onclick="return confirm ('Are you sure you want to Delete?')" class="btn btn-danger btn-sm">
+                                                <button asp-page-handler="Delete" asp-route-id="@assetype.Id"
+                                                    onclick="return confirm ('Are you sure you want to Delete?')"
+                                                    class="btn btn-danger btn-sm">
                                                     <i class="fa fa-trash">
                                                     </i>
                                                 </button>
@@ -63,7 +68,8 @@
     </div>
 </div>
 
-@*<div class=" container row p-0 m-0">
+@*
+<div class=" container row p-0 m-0">
     <div class=" col-6">
         <h2 class="text-info">Asset List</h2>
     </div>

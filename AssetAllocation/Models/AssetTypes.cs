@@ -7,9 +7,10 @@ namespace CRM.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public string Prefix { get; set; } = "Teamverse";
-        
+        public string? Description { get; set; }
+
         public DateTime CreatedOn { get; set; } = DateTime.Now;
     }
 }

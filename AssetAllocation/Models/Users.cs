@@ -34,6 +34,6 @@ namespace CRM.Models
         public DateTime LastLogin { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public bool IsDeleted { get; set; } = false;
-        
+
     }
 }

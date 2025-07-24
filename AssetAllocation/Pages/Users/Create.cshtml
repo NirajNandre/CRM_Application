@@ -6,10 +6,11 @@
 }
 
 <div class="card m-3 border-light">
-    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">@(Model.Users.Id != 0 ? "Edit" : "Create") User</h3>
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">@(Model.Users.Id != 0 ? "Edit" : "Create")
+        User</h3>
     <br />
     <div class="card-body">
-          <form method="post">
+        <form method="post">
             @if (Model.Users.Id != 0)
             {
                 <input type="hidden" asp-for="Users.Id" />
@@ -20,17 +21,17 @@
                     <label asp-for="Users.UserName">User Name</label>
                 </div>
                 <div class=" col-6">
-                @if (Model.Users.Id > 0)
-                {
-                    <input asp-for="Users.UserName" class="form-control" id="UserName" readonly="readonly" />
+                    @if (Model.Users.Id > 0)
+                    {
+                        <input asp-for="Users.UserName" class="form-control" id="UserName" readonly="readonly" />
 
-                }
-                else
-                {
-                    <input asp-for="Users.UserName" class="form-control" id="UserName" required />
+                    }
+                    else
+                    {
+                        <input asp-for="Users.UserName" class="form-control" id="UserName" required />
 
-                }
-              </div>
+                    }
+                </div>
                 @if (ViewData["UserExistMessage"] != null)
                 {
                     <span class="text-danger">@ViewData["UserExistMessage"]</span>
@@ -63,7 +64,7 @@
                     <label asp-for="Users.ConfirmPassword">Confirm Password<span class="text-danger">*</span></label>
                 </div>
                 <div class=" col-6">
-                    <input asp-for="Users.ConfirmPassword" class="form-control" type="password" id="ConfirmPassword"  />
+                    <input asp-for="Users.ConfirmPassword" class="form-control" type="password" id="ConfirmPassword" />
                 </div>
                 <span asp-validation-for="Users.ConfirmPassword" class="text-danger"></span>
             </div>
@@ -72,7 +73,8 @@
                     <label asp-for="Users.Role">User Role</label>
                 </div>
                 <div class=" col-6">
-                    <select asp-for="Users.Role" class="form-control" asp-items="Html.GetEnumSelectList<CRM.Models.UserRoles>()"></select>
+                    <select asp-for="Users.Role" class="form-control"
+                        asp-items="Html.GetEnumSelectList<CRM.Models.UserRoles>()"></select>
 
                 </div>
                 <span asp-validation-for="Users.Role" class="text-danger"></span>
@@ -82,9 +84,18 @@
                     <label asp-for="Users.FullName">Full Name</label>
                 </div>
                 <div class=" col-6">
-                    <input asp-for="Users.FullName" class="form-control" required/>
+                    <input asp-for="Users.FullName" class="form-control" required />
                 </div>
                 <span asp-validation-for="Users.FullName" class="text-danger"></span>
+            </div>
+            <div class=" form-group row mt-3">
+                <div class=" col-2 offset-2">
+                    <label asp-for="Users.PhoneNumber">Phone Number</label>
+                </div>
+                <div class=" col-6">
+                    <input asp-for="Users.PhoneNumber" class="form-control" required />
+                </div>
+                <span asp-validation-for="Users.PhoneNumber" class="text-danger"></span>
             </div>
             <div class=" form-group row mt-3">
                 <div class=" col-2 offset-2">
@@ -95,10 +106,11 @@
                 </div>
                 <span asp-validation-for="Users.IsActive" class="text-danger"></span>
             </div>
-           
+
             <div class=" form-group row mt-3">
                 <div class="col-3 offset-3">
-                    <button type="submit" id="btnSubmit" class="btn btn-primary form-control">@(Model.Users.Id != 0 ? "Update" : "Create")</button>
+                    <button type="submit" id="btnSubmit" class="btn btn-primary form-control">@(Model.Users.Id != 0 ?
+                                                "Update" : "Create")</button>
 
                 </div>
                 <div class=" col-3">
@@ -112,7 +124,7 @@
     var password = document.getElementById("Password")
         , confirm_password = document.getElementById("ConfirmPassword");
     var checkPassword = document.getElementById("checkPassword");
-    
+
 
     function validatePassword() {
         if (checkPassword != null) {
@@ -131,8 +143,7 @@
         }
 
     }
-    
+
     password.onchange = validatePassword;
     confirm_password.onkeyup = validatePassword;
 </script>
-
