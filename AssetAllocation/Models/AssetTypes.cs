@@ -9,7 +9,8 @@ namespace CRM.Models
         [Required]
         public string Name { get; set; }
         public string Prefix { get; set; } = "Teamverse";
-        
+        public string? Description { get; set; }
+
         public DateTime CreatedOn { get; set; } = DateTime.Now;
     }
 }
