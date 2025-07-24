@@ -17,18 +17,20 @@ namespace CRM.Models
 
         public int Id { get; set; }
         [Required]
-        public string UserName { get; set; }
+        public string UserName { get; set; } = string.Empty;
         [Required]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
         [NotMapped]
         [Required]
         [Compare("Password", ErrorMessage = "Password and Confirmation Password must match.")]
-        public string ConfirmPassword { get; set; }
+        public string ConfirmPassword { get; set; } = string.Empty;
         [Required(ErrorMessage = "Role is required.")]
         public UserRoles Role { get; set; }
 
         [Required]
-        public string FullName { get; set; }
+        public string FullName { get; set; } = string.Empty;
+        [Required]
+        public string PhoneNumber { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
         [DataType(DataType.Date)]
         public DateTime LastLogin { get; set; }
